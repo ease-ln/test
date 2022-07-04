@@ -1,0 +1,343 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* overflow: hidden; */
+    background: radial-gradient(#76b2fe, #b69efe);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+#theHeader {
+width: 100%;
+height: 50px;
+background: #FFFFFF;
+box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+}  
+
+.logo-img {
+display: inline-block;
+width: 40px;
+height: 40px;
+margin: 0 10px 5px 8%;
+}
+
+.logo-text {
+display: inline-block;
+position: relative;
+font-size: 25px;
+bottom: 15px;
+height: 50px;
+}
+
+#projectTitle {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#project-title {
+  height: 50px;
+  width: 270px;
+  margin: 29px 0 20px 8%;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 30px;
+  color: #FFFFFF;
+  padding: 13px 20px;
+  background: rgba(255, 255, 255, 0);
+}
+
+#project-title:focus  {
+  height: 50px;
+  max-width: 270px;
+  margin: 29px 0 20px 8%;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 30px;
+  color: #FFFFFF;
+  padding: 13px 20px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+#lists {
+  width: 100vw;
+  height: calc(100vh - 160px);
+  display: -webkit-inline-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+
+.list {
+    display: block;
+    align-self: center;
+    margin: 10px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.8);
+    }
+
+.list-elem {
+  width: 100%;
+  padding: 13px 20px;
+  margin: 2px auto;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 15px;
+  outline: none;
+  border: 1px solid rgba(233, 238, 255);
+  border-bottom: 1px solid #091e4221;
+}
+
+.edit-elem {
+  width: 50px;
+  padding: 13px 18px;
+}
+
+.header-container {
+  display: flex;
+}
+
+#title {
+  border: 1px solid rgba(233, 238, 255);
+  background: rgba(233, 238, 255);
+  border-radius: 10px;
+  position: sticky;
+  position:-webkit-sticky; 
+  top: 0;
+  z-index: 10;
+  /* border-bottom: 1px solid #091e4221; */
+}
+
+#title:focus{
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.pop-over {
+  position: absolute;
+  left: 50%; 
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  background-color: #FFFFFF;
+  z-index: 1;
+  /* change left on 100px */
+}
+.pop-over-header {
+  height: 40px;
+  margin-bottom: 8px;
+  /* position: relative; */
+  text-align: center;
+}
+
+.pop-over-header-title {
+  border-bottom: 1px solid #091e4221;
+  box-sizing: border-box;
+  color: #5e6c84;
+  display: block;
+  line-height: 40px;
+  margin: 0 12px;
+  overflow: hidden;
+  padding: 0 25px;
+  position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.pop-over-header-close-btn {
+  color: #6b778c;
+  padding: 9px 12px 10px 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  text-decoration: none;
+}
+
+.pop-over-list {
+  text-decoration: none;
+  color: #172b4d;
+  list-style: none;
+  margin: 0;
+  padding: 0 5px;
+}
+.pop-over-list>li {
+  padding-left: 10px;
+}
+
+.pop-over-list>li:hover {
+  padding-left: 10px;
+  background-color: rgb(213, 214, 209);
+}
+
+
+.elem-settings {
+  width: 200px;
+  margin: 2px auto;
+
+}
+
+#list-header:focus {
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+#listAdd {
+    padding: 0;
+    opacity: 0.8;
+}
+.tasks {
+  overflow-y: auto;
+  position: relative;
+  height: calc(100vh - 280px);
+}
+#task-add {
+  border: 1px solid rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0);
+}
+#task-add:focus {
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+#list-add-task {
+    display: none;
+    text-align: center;
+    font-size: 52px;
+    color: #76b2fe;
+    margin: 0px;
+}
+.task{
+  cursor: move;
+}
+
+.taskOver {
+  background: #2196F3;
+}
+.task-elem {
+  padding: 7px 10px;
+  margin: 2px auto;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 12px;
+  outline: none;
+}
+
+.sub-task-add-input {
+  display: none;
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+ /* Customize the label (the container) */
+ .container {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    padding-left: 20px;
+    border-bottom: 1px solid #172b4d;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .container .checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  } 
+
+
+  .task-container {
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: row wrap;
+  }
+
+  .delete-task {
+      display: inline-block;
+      width: 15px;
+      background-color: #b69efe;
+      text-align: center;
+      color:rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      vertical-align: top;
+      margin: 0;
+  }
+
+  .move-elem {
+    display: inline-block;
+    width: 125px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+  }
+
+  .selected {
+    opacity: 0.6;
+  }
+
+  .search {
+    height: 50px;
+    width: 300px;
+    float: right;
+    margin: 29px 5%;
+  }

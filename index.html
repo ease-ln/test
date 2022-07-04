@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CATastrophe!</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+    <body>
+    <div id="theHeader">
+        <img id="logo-img" class="logo-img" src="/logo.png" alt="app logo - cat" /> 
+        <p class="logo-text">CATastrophe!</p>
+    </div>
+
+    <p class="lead">Добро пожаловать в CATastrophe!</p>
+
+    <ul id="messages"></ul>
+    <div id="cards">
+        <div id="add-card" class="card" onclick="showAddForm()">
+            <div id="add-project-before"> 
+              <p id="add-project-title">+</p>
+              <input type="file" id="upload-project" name="upload-project " accept=".json" onchange="importProject(this)" />
+              <button id="upload">Upload</button>
+            </div>
+            
+            <div id="add-project-after" >
+              <form id="publish" class="form-inline">
+                <label for="form-title">Title</label>
+                <input type="text" id="form-title" name="title"/>
+                <label for="form-descr">Description</label>
+                <textarea id="form-descr" name="description" rows="2" cols="39"></textarea>
+                <input type="button" class="btn btn-primary" value="Add" onclick="publishProject(document.getElementById('publish'))" />
+              </form>
+            </div>
+
+        </div>
+
+
+
+    </div> 
+
+
+<script>
+  const CHAR_LIMIT_DESCRIPTION = 100;
+  const CHAR_LIMIT_TITLE = 30;
+  function projectsLoad() {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", "/projects", true);
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+      if (this.readyState != 4) return;
+        let projects = JSON.parse(this.responseText).children;
+
+        for(id in projects) {
+            let card = createProjectCard(projects[id]);
+            let cards = document.getElementById('cards');
+            cards.insertBefore(card, document.getElementById('add-card'));
+        }
+
+    }
+    return false;
+  };
+  function importProject(file){
+    const fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file.files[0]);
+
+
+            fileReader.onload = (event) => {
+                console.log('Complete File read successfully!')
+            }
+
+    file.files[0].text().then((result) => {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/addProject", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(result);
+        return false;
+
+    });
+    // console.log(result);
+
+  }
+
+  function publishProject(elements) {
+    if (elements.title.value == '') elements.title.placeholder = 'Please, fill project name';
+    if (elements.description.value == '') elements.description.placeholder = 'Please, fill project description';
+    if (elements.title.value != '' && elements.description.value != '') {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/addProject", true);
+      xhr.setRequestHeader("Content-Type", "application/json;");
+      xhr.send(JSON.stringify({"title": elements.title.value, "description": elements.description.value, "children": []}));
+      elements.title.value = '';
+      elements.description.value = '';
+      hideAddForm();
+    }    
+  };
+
+  document.getElementById('add-project-after').style.display = 'none';
+  projectsLoad();
+  subscribe();
+  
+
+  function subscribe() {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", "/subscribe", true);
+
+    xhr.onreadystatechange = function() {
+      if (this.readyState != 4) return;
+
+      if (this.status != 200) {
+        setTimeout(subscribe, 500);
+        return;
+      }
+      
+      console.log(this.responseText);
+      let resp = JSON.parse(this.responseText);
+      let project = resp.data;
+      console.log(resp.data);
+      switch (resp.action) {
+        case 'add':
+        console.log('add');
+        let card = createProjectCard(project);
+        // append card to body
+        let cards = document.getElementById('cards');
+        cards.insertBefore(card, document.getElementById('add-card'));
+        hideAddForm();
+        break;
+        case 'editProject': 
+        let cardToEdit = document.getElementById(project.id).querySelector('.card-header');
+        cardToEdit.textContent = project.title;
+        break;
+        }
+
+      subscribe();
+    };
+
+    xhr.send(null);
+  }
+
+    function createProjectCard(cardData) {
+        let card = document.createElement('div');
+        card.className = "card";
+        card.id = cardData.id;
+        card.onclick = function(){
+            openProject(cardData.id);
+        }
+
+        if (cardData.description.length >= CHAR_LIMIT_DESCRIPTION) {
+          cardData.description = cardData.description.slice(0, CHAR_LIMIT_DESCRIPTION) + "..."
+        };
+        if (cardData.title.length >= CHAR_LIMIT_TITLE) {
+          cardData.title = cardData.title.slice(0, CHAR_LIMIT_TITLE) + "..."
+        };
+
+        card.innerHTML =  `
+        <div style="display: flex; justify-content: space-between;"> 
+          <h2 class="card-header">${cardData.title}</h2>
+          <a href="/${cardData.id}.json" onclick="getProject(${cardData.id})"; download="${cardData.id}.json">
+            <img id="logo-img" class="logo-img" src="/export.png" alt="app logo - cat" />
+          </a> 
+        </div>
+        <p class="card-info">${cardData.description}</p>
+        <a class="card_link"></a>
+        `;
+        return card;
+    }
+
+    function hideAddForm() {
+      document.getElementById('add-project-before').style.display = 'block';
+      document.getElementById('add-project-after').style.display = 'none';
+
+    }
+
+    function showAddForm() {
+      document.getElementById('add-project-before').style.display = 'none';
+      document.getElementById('add-project-after').style.display = 'block';
+        }
+
+    function openProject(id) {
+        window.open(
+              "/project?"+id, "_blank");
+
+    }
+
+    function getProject(projectId) {
+    console.log(projectId);
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "/getProject", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify({"id": projectId}));
+    xhr.onreadystatechange = function() {
+      if (this.readyState != 4) return;
+        return JSON.parse(this.responseText);
+    }
+    return false
+  }
+
+</script>
+</body>
+</html>
