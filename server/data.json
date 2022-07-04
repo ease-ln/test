@@ -1,9 +1,0 @@
-{ 
-    "projects" : {
-            "id" : 1,
-            "isOpen" : false,
-            "Name" : "firstProject",
-            "States" : [],
-            "Tasks" : [] 
-    }
-  }
